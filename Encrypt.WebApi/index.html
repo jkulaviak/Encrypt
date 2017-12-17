@@ -1,0 +1,85 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Encryption</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
+        crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+
+        function Encrypt()
+        {       
+            var text = $("#decrypted").val();
+            if (!text) {
+                alert("Text to encrypt is empty!");
+                return;
+            }
+            $.get( "api/encrypt", {alg: "morse", str: text}, function(data) {
+                $("#encrypted").val(data);
+            });
+        }
+
+        function Decrypt()
+        {       
+            var text = $("#encrypted").val();
+            if (!text) {
+                alert("Text to decrypt is empty!");
+                return;
+            }
+            $.get( "api/decrypt", {alg: "morse", str: text}, function(data) {
+                $("#decrypted").val(data);
+            });
+        }
+
+    </script>
+</head>
+
+<body style="margin: 10px;">
+    <div style="font-size: 13pt; font-weight: bold;">Encryption</div>
+    <p></p>
+    <table>
+        <tr>
+            <td>Cipher
+                <select name="select">
+                    <option value="morse">Morse code</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <table>
+                <tr>
+                    <td>
+                        <div class="form-group">
+                            <label style="font-weight: bold;">Text:</label>
+                            <textarea style="width: 500px;" class="form-control" rows="10" id="decrypted"></textarea>
+                        </div>
+                    </td>
+                    <td>
+                        <div style="margin: 10px;">
+                            <button onclick="Encrypt();">=></button>
+                        </div>
+                        <div style="margin: 10px;">
+                            <button onclick="Decrypt();">&lt;=</button>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <label style="font-weight: bold;" >Encrypted:</label>
+                            <textarea style="width: 500px;" class="form-control" rows="10" id="encrypted"></textarea>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </tr>
+        <tr><td><span style="font-style: italic">Invalid characters are skipped.</span></td></tr>
+    </table>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

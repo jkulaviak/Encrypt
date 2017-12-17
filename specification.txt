@@ -1,0 +1,7 @@
+Write an web application in .NET/C# which
+• Allow user to enter string which will be encrypted or decrypted by selected algorithm
+• Implement encryption to and from Morse code
+• Your solution should allow extension with another encryption and decryption algorithm (e.g Caesar cipher)
+Show your programming skills as well as your problem-solving skills. Clean and readable code and a good design is important. Implement also unit tests or integration tests if needed.
+ 
+Use HTML pages for presentation layer. You can use any Javascript framework implementing your favorite presentation layer design pattern.
