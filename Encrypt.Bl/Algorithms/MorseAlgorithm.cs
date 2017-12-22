@@ -6,67 +6,62 @@ namespace Encrypt.Bl.Algorithms
 {
     public class MorseAlgorithm
     {
-        private static Dictionary<char, string> _alphabetToMorseDictionary;
+
+        private static Dictionary<char, string> _alphabetToMorseDictionary = new Dictionary<char, string>
+        {
+            {'A', ".-"},
+            {'B', "-..."},
+            {'C', "-.-."},
+            {'D', "-.."},
+            {'E', "."},
+            {'F', "..-."},
+            {'G', "--."},
+            {'H', "...."},
+            {'I', ".."},
+            {'J', ".---"},
+            {'K', "-.-"},
+            {'L', ".-.."},
+            {'M', "--"},
+            {'N', "-."},
+            {'O', "---"},
+            {'P', ".--."},
+            {'Q', "--.-"},
+            {'R', ".-."},
+            {'S', "..."},
+            {'T', "-"},
+            {'U', "..-"},
+            {'V', "...-"},
+            {'W', ".--"},
+            {'X', "-..-"},
+            {'Y', "-.--"},
+            {'Z', "--.."},
+            {'0', "-----"},
+            {'1', ".----"},
+            {'2', "..---"},
+            {'3', "...--"},
+            {'4', "....-"},
+            {'5', "....."},
+            {'6', "-...."},
+            {'7', "--..."},
+            {'8', "---.."},
+            {'9', "----."}
+        };
+
         private static Dictionary<string, char> _morseToAlphabetDictionary;
 
-        private static Dictionary<char, string> AlphabetToMorseDictionary => _alphabetToMorseDictionary ?? (_alphabetToMorseDictionary = CreateAlphabetToMorseDictionary());
-        private static Dictionary<string, char> MorseToAlphabetDictionary => _morseToAlphabetDictionary ?? (_morseToAlphabetDictionary = CreateMorseToAlphabetDictionary());
-
-        private static Dictionary<char, string> CreateAlphabetToMorseDictionary()
-        {
-            return new Dictionary<char, string>
-            {
-                {'A', ".-"},
-                {'B', "-..."},
-                {'C', "-.-."},
-                {'D', "-.."},
-                {'E', "."},
-                {'F', "..-."},
-                {'G', "--."},
-                {'H', "...."},
-                {'I', ".."},
-                {'J', ".---"},
-                {'K', "-.-"},
-                {'L', ".-.."},
-                {'M', "--"},
-                {'N', "-."},
-                {'O', "---"},
-                {'P', ".--."},
-                {'Q', "--.-"},
-                {'R', ".-."},
-                {'S', "..."},
-                {'T', "-"},
-                {'U', "..-"},
-                {'V', "...-"},
-                {'W', ".--"},
-                {'X', "-..-"},
-                {'Y', "-.--"},
-                {'Z', "--.."},
-                {'0', "-----"},
-                {'1', ".----"},
-                {'2', "..---"},
-                {'3', "...--"},
-                {'4', "....-"},
-                {'5', "....."},
-                {'6', "-...."},
-                {'7', "--..."},
-                {'8', "---.."},
-                {'9', "----."}
-            };
-        }
-
-        /// <summary>
-        /// Creates the morse to alphabet dictionary.
-        /// </summary>
-        private static Dictionary<string, char> CreateMorseToAlphabetDictionary()
+        private static Dictionary<string, char> InvertDictionary(Dictionary<char, string> dict)
         {
             var ret = new Dictionary<string, char>();
-            var dict = CreateAlphabetToMorseDictionary();
             foreach (var pair in dict)
             {
                 ret.Add(pair.Value, pair.Key);
             }
             return ret;
+        }
+
+        public MorseAlgorithm()
+        {
+            _morseToAlphabetDictionary = InvertDictionary(_alphabetToMorseDictionary);
         }
 
         /// <summary>
@@ -81,7 +76,7 @@ namespace Encrypt.Bl.Algorithms
                 if (ch != ' ')
                 {
                     string translatedCh;
-                    if (AlphabetToMorseDictionary.TryGetValue(ch, out translatedCh))
+                    if (_alphabetToMorseDictionary.TryGetValue(ch, out translatedCh))
                     {
                         sb.Append(translatedCh);
                         if (i != str.Length - 1)
@@ -124,7 +119,10 @@ namespace Encrypt.Bl.Algorithms
                         }
                         break;
                     default:
-                        encryptedCharSb.Append(ch);                                                
+                        if (ch == '.' || ch == '-')
+                        {
+                            encryptedCharSb.Append(ch);                                                
+                        }
                         break;
                 }
             }
@@ -146,7 +144,7 @@ namespace Encrypt.Bl.Algorithms
         private char? MorseToChar(string str)
         {
             char ch;
-            if (MorseToAlphabetDictionary.TryGetValue(str, out ch))
+            if (_morseToAlphabetDictionary.TryGetValue(str, out ch))
             {
                 return ch;
             }
